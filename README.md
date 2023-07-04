@@ -20,4 +20,21 @@ Gitbash
 
 ### Comandos para execução do experimento:
 
-*
+* Criar uma tabela de Clientes
+
+  `aws dynamodb create-table \
+      --table-name Clientes \
+      --attribute-definitions \
+          AttributeName=Cpf,AttributeType=S \
+          AttributeName=Nome,AttributeType=S \
+      --key-schema \
+          AttributeName=Cpf,KeyType=HASH \
+          AttributeName=Nome,KeyType=RANGE \
+      --provisioned-throughput \
+          ReadCapacityUnits=10,WriteCapacityUnits=5	`
+
+* Inserir um item em massa
+
+  `aws dynamodb batch-write-item \
+      --request-items file://batchclientes.json`
+  

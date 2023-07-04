@@ -6,7 +6,7 @@ Além disso, você pode criar índices no DynamoDB para melhorar a eficiência d
 
 
 
-### Serviço utilizado
+## Serviço utilizado
 
 Amazon DynamoDB
 

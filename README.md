@@ -35,6 +35,6 @@ Gitbash
 
 * Inserir um item em massa
 
-  `aws dynamodb batch-write-item \
-      --request-items file://batchclientes.json`
+> aws dynamodb batch-write-item \
+>     --request-items file://batchclientes.json
   

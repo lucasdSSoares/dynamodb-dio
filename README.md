@@ -22,7 +22,8 @@ Gitbash
 
 * Criar uma tabela de Clientes
 
-  `aws dynamodb create-table \
+  ```json
+  aws dynamodb create-table \
       --table-name Clientes \
       --attribute-definitions \
           AttributeName=Cpf,AttributeType=S \
@@ -32,9 +33,63 @@ Gitbash
           AttributeName=Nome,KeyType=RANGE \
       --provisioned-throughput \
           ReadCapacityUnits=10,WriteCapacityUnits=5	`
+  ```
+
+  
 
 * Inserir um item em massa
 
-> aws dynamodb batch-write-item \
->     --request-items file://batchclientes.json
+  > ```json
+  > aws dynamodb batch-write-item \
+  >     --request-items file://batchclientes.json
+  > ```
+  >
+  > 
+
+* Criar um index global secundário baseado na cidade.
+
+  ```json
+  aws dynamodb update-table \
+      --table-name Clientes \
+      --attribute-definitions AttributeName=Cidade,AttributeType=S \
+      --global-secondary-index-updates \
+          "[{\"Create\":{\"IndexName\": \"Cidade-index\",\"KeySchema\":[{\"AttributeName\":\"Cidade\",\"KeyType\":\"HASH\"}], \
+          \"ProvisionedThroughput\": {\"ReadCapacityUnits\": 10, \"WriteCapacityUnits\": 5      },\"Projection\":{\"ProjectionType\":\"ALL\"}}}]"
+  ```
+
+- Criar um index global secundário baseado no nome do cliente e ano de nascimento
+
+  ```json
+  aws dynamodb update-table \    
+      --table-name Clientes \
+      --attribute-definitions\
+          AttributeName=Nome,AttributeType=S \
+          AttributeName=DataNasc,AttributeType=S \
+      --global-secondary-index-updates \
+          "[{\"Create\":{\"IndexName\": \"NomeDatanasc-index\",\"KeySchema\":[{\"AttributeName\":\"Nome\",\"KeyType\":\"HASH\"}, {\"AttributeName\":\"DataNasc\",\"KeyType\":\"RANGE\"}], \
+          \"ProvisionedThroughput\": {\"ReadCapacityUnits\": 10, \"WriteCapacityUnits\": 5      },\"Projection\":{\"ProjectionType\":\"ALL\"}}}]"
+  ```
+
+- Pesquisar item por Cidade
+
+  ```  json
+  aws dynamodb query \
+      --table-name Clientes \
+      --key-condition-expression "Cidade = :cidade" \
+      --expression-attribute-values  '{":cidade":{"S":"Salvador"}}'
+  ```
+
+  * Pesquisar item por Cpf e Data de Nascimento
+
+  ``` json
+   aws dynamodb query \
+      --table-name Clientes \
+      --key-condition-expression "Cpf  = :cpf and DataNasc = :datanasc" \
+      --expression-attribute-values file://keycondcli.json
   
+  ```
+
+  
+
+  
+

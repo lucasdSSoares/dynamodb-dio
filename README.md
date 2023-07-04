@@ -22,7 +22,7 @@ Gitbash
 
 * Criar uma tabela de Clientes
 
-  ```json
+  ```
   aws dynamodb create-table \
       --table-name Clientes \
       --attribute-definitions \

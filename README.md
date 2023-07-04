@@ -39,7 +39,7 @@ Gitbash
 
 * Inserir um item em massa
 
-  > ```json
+  > ```
   > aws dynamodb batch-write-item \
   >     --request-items file://batchclientes.json
   > ```
@@ -48,7 +48,7 @@ Gitbash
 
 * Criar um index global secundário baseado na cidade.
 
-  ```json
+  ```
   aws dynamodb update-table \
       --table-name Clientes \
       --attribute-definitions AttributeName=Cidade,AttributeType=S \
@@ -59,7 +59,7 @@ Gitbash
 
 - Criar um index global secundário baseado no nome do cliente e ano de nascimento
 
-  ```json
+  ```
   aws dynamodb update-table \    
       --table-name Clientes \
       --attribute-definitions\
@@ -72,7 +72,7 @@ Gitbash
 
 - Pesquisar item por Cidade
 
-  ```  json
+  ```  
   aws dynamodb query \
       --table-name Clientes \
       --key-condition-expression "Cidade = :cidade" \
@@ -81,7 +81,7 @@ Gitbash
 
   * Pesquisar item por Cpf e Data de Nascimento
 
-  ``` json
+  ``` 
    aws dynamodb query \
       --table-name Clientes \
       --key-condition-expression "Cpf  = :cpf and DataNasc = :datanasc" \
